@@ -1,0 +1,128 @@
+/* General Styles */
+body {
+    font-family: 'Cinzel Decorative', cursive;
+    margin: 0;
+    padding: 0;
+    background-color: #F2D7C7; /* Light Peach background */
+    color: #6A8A55;            /* Olive Green text */
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* Navigation Bar */
+.top-nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 15px 0; /* Ensure enough space for larger image */
+    text-align: center;
+    z-index: 1000;
+    transition: background-color 0.3s, padding 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* subtle shadow for depth */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distributes space between items */
+}
+
+/* Ensure logo is sized properly */
+.nav-logo {
+    height: 69px; /* Larger height for logo */
+    margin-left: 15px; /* Keeps the logo aligned to the left */
+}
+
+/* Target images in the nav */
+.top-nav img {
+    height: 69px; /* Adjust the image size */
+    vertical-align: middle;
+    margin: 0 15px;
+    transition: transform 0.3s;
+}
+
+/* Hover effect for images */
+.top-nav img:hover {
+    transform: scale(1.1); /* Slightly enlarges the image on hover */
+}
+
+/* Navigation Links */
+.top-nav a {
+    color: #F2D7C7; /* Light Peach text for readability */
+    text-decoration: none;
+    margin: 0 15px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-family: 'Cinzel', serif;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+/* Hover effect for links */
+.top-nav a:hover {
+    background-color: #B8A1D0; /* Light Purple */
+    transform: scale(1.1);
+}
+
+/* Navbar appearance when scrolling */
+body.scrolled .top-nav {
+    background-color: rgba(160, 167, 167, 0.9); /* Darker navbar when scrolled */
+    padding: 10px 0; /* Adjusted padding when scrolled */
+}
+
+body.scrolled .top-nav a {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+}
+
+/* General Section and Text */
+section {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #FFFFFF; /* White background for freshness */
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(160, 167, 167, 0.1); /* Subtle shadow */
+}
+
+h1, h2, h3 {
+    color: #6A8A55; /* Olive Green for headings */
+    font-family: 'Cinzel Decorative', cursive;
+    margin-bottom: 1.5rem;
+}
+
+/* Button Styles */
+.cta-button {
+    background-color: #6A8A55; /* Olive Green button */
+    color: #F2D7C7;            /* Light Peach text */
+    padding: 1rem 2rem;
+    border: 2px solid #6A8A55; /* Added border for definition */
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+}
+
+.cta-button:hover {
+    background-color: #B8A1D0; /* Light Purple */
+    color: #F2D7C7;            /* Light Peach text */
+    transform: scale(1.1);     /* Slightly enlarge on hover */
+}
+
+/* Footer */
+footer {
+    background-color: #6A8A55; /* Olive Green footer */
+    color: #F2D7C7;            /* Light Peach text */
+    padding: 20px;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+}
+
+footer a {
+    color: #A8B59E; /* Soft Greenish Gray link color */
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    color: #B8A1D0; /* Light Purple on hover */
+}

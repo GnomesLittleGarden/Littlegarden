@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gnome's Little Garden - Secure Checkout</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/checkout.css"> <!-- Checkout specific styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script> <!-- Stripe.js -->
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="top-nav">
+        <div class="nav-logo">
+            <a href="index.html"><img src="Images/Gnome_Logo-removebg-preview.png" alt="Nav Image" class="nav-image"></a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="faq.html">FAQ</a>
+            <a href="cart.html">Cart</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="checkout">
+            <h1>Secure Checkout</h1>
+            
+            <!-- Order Summary Section -->
+            <div id="cart-summary">
+                <h2>Order Summary</h2>
+                <div id="checkout-cart-items">
+                    <!-- Cart items will be dynamically inserted here by JavaScript -->
+                </div>
+                <p>Total: $<span id="checkout-cart-total">0.00</span></p> 
+                <!-- Where the total will be displayed -->
+
+<script>
+    // Function to get a specific cookie value
+    function getCookie(name) {
+        const cookieArray = document.cookie.split(';');
+        for (let i = 0; i < cookieArray.length; i++) {
+            let cookie = cookieArray[i].trim();
+            if (cookie.indexOf(name + "=") === 0) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+        return null;
+    }
+
+    // Function to display the total on the checkout page
+    function displayCheckoutTotal() {
+        const total = getCookie('cartTotal'); // Retrieve the total from the cookie
+        if (total) {
+            document.getElementById('checkout-cart-total').textContent = total;
+        }
+    }
+
+    // Initialize the total when the page loads
+    document.addEventListener('DOMContentLoaded', displayCheckoutTotal);
+</script>
+                <p>Shipping: $<span id="shipping-cost">0.00</span></p>
+                <p>Grand Total: $<span id="grand-total">0.00</span></p>
+            </div>
+
+            <!-- Shipping Information Form -->
+            <form id="checkout-form" action="/process-checkout" method="POST">
+                <fieldset>
+                    <legend>Shipping Information</legend>
+                    
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" required>
+                    
+                    <label for="city">City:</label>
+                    <input type="text" id="city" name="city" required>
+                    
+                    <label for="state">Province/Territory:</label>
+                    <select id="state" name="state" required>
+                        <option value="AB" data-shipping="10">Alberta - $10</option>
+                        <!-- More provinces/territories -->
+                    </select>
+                    
+                    <label for="zip">Postal Code:</label>
+                    <input type="text" id="zip" name="zip" required>
+                    
+                    <label for="country">Country:</label>
+                    <select id="country" name="country" required>
+                        <option value="CA" data-shipping="0">Canada</option> <!-- Base shipping handled via provinces -->
+                        <option value="US" data-shipping="20">United States - $20</option>
+                        <option value="INT" data-shipping="35">International - $35</option>
+                    </select>
+
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required>
+
+                    <label for="shipping-method">Shipping Method:</label>
+                    <select id="shipping-method" name="shipping-method" required>
+                        <option value="standard" data-multiplier="1">Standard (5-7 days) - No extra cost</option>
+                        <option value="express" data-multiplier="1.5">Express (2-3 days) - 50% extra</option>
+                        <option value="priority" data-multiplier="2">Priority (Next Day) - 100% extra</option>
+                    </select>
+                </fieldset>
+
+                <!-- Payment Information -->
+                <fieldset>
+                    <legend>Payment Information</legend>
+
+                    <!-- Payment Method UI -->
+                    <div class="payment-methods">
+                        <button type="button" class="payment-method-button active-method" data-method="credit-card">
+                            Credit/Debit Card
+                        </button>
+                        <button type="button" class="payment-method-button" data-method="paypal">
+                            PayPal
+                        </button>
+                        <button type="button" class="payment-method-button" data-method="crypto">
+                            Cryptocurrency
+                        </button>
+                    </div>
+
+                    <!-- Credit Card Information -->
+                    <div id="credit-card-info" class="payment-info visible">
+                        <label for="card-name">Name on Card:</label>
+                        <input type="text" id="card-name" name="card-name" required>
+
+                        <label for="card-number">Card Number:</label>
+                        <input type="text" id="card-number" name="card-number" required>
+
+                        <label for="card-expiry">Expiry Date:</label>
+                        <input type="text" id="card-expiry" name="card-expiry" placeholder="MM/YY" required>
+
+                        <label for="card-cvc">CVC:</label>
+                        <input type="text" id="card-cvc" name="card-cvc" required>
+                    </div>
+
+                    <!-- PayPal Information -->
+                    <div id="paypal-info" class="payment-info">
+                        <p>Pay with PayPal: You will be redirected to PayPal after submitting your order.</p>
+                    </div>
+
+                    <!-- Cryptocurrency Payment Information -->
+                    <div id="crypto-info" class="payment-info">
+                        <p>Send your payment to the following wallet address:</p>
+                        <p><strong>BTC Wallet:</strong> 039b7e8d50e6940876d83bdfd0a7df98ca5645f1c105bc35311a5e110f138abbae</p>
+                    </div>
+                </fieldset>
+
+                <!-- Complete Purchase Button -->
+                <button id="complete-purchase" class="cta-button" disabled>Complete Purchase</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Gnome's Little Garden. All rights reserved. <br> Your payment is secure and processed with SSL encryption.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const paymentButtons = document.querySelectorAll('.payment-method-button');
+            const paymentInfoSections = document.querySelectorAll('.payment-info');
+            const completePurchaseButton = document.getElementById('complete-purchase');
+            const form = document.getElementById('checkout-form');
+
+            // Payment method selection
+            paymentButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    paymentButtons.forEach(btn => btn.classList.remove('active-method'));
+                    paymentInfoSections.forEach(section => section.classList.remove('visible'));
+
+                    this.classList.add('active-method');
+                    const method = this.getAttribute('data-method');
+                    document.getElementById(`${method}-info`).classList.add('visible');
+                });
+            });
+
+            // Enable "Complete Purchase" button only after form is valid
+            form.addEventListener('input', () => {
+                completePurchaseButton.disabled = !form.checkValidity();
+            });
+
+            // Auto-format credit card number
+            document.getElementById('card-number').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+                e.target.value = value;
+            });
+
+            // Auto-format expiry date
+            document.getElementById('card-expiry').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 3) {
+                    value = value.slice(0, 2) + '/' + value.slice(2);
+                }
+                e.target.value = value;
+            });
+
+            // Show a loading spinner when processing the payment
+            completePurchaseButton.addEventListener('click', function() {
+                completePurchaseButton.disabled = true;
+                completePurchaseButton.innerHTML = 'Processing... <span class="spinner"></span>';
+            });
+        });
+    </script>
+
+    <!-- CSS for Loading Spinner -->
+    <style>
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            animation: spin 0.6s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+             0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</body>
+
+</html>

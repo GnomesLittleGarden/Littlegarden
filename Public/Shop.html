@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gnome's Little Garden - Shop</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/Shop.css"> <!-- Additional styles specific to the shop page -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="top-nav">
+        <div class="nav-logo">
+            <a href="index.html"><img src="Images/Gnome_Logo-removebg-preview.png" alt="Nav Image" class="nav-image"></a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="faq.html">FAQ</a>
+            <a href="cart.html">Cart</a>
+        </div>
+    </nav>
+
+    <!-- Shop Header -->
+    <header class="shop-header">
+        <div class="header-content">
+            <h1>Shop the Magic</h1>
+            <p>Discover our curated collection of 420 essentials and whimsical wonders.</p>
+        </div>
+    </header>
+
+   <!-- Main Content -->
+<main>
+    <!-- Featured Products Section -->
+<section id="featured-products">
+    <h2>Featured Products</h2>
+    <div class="product-grid" id="product-grid">
+        <!-- Product 1: Starter 420 Kit -->
+        <div class="product-item">
+            <a href="starter-Kit.html">
+                <div class="product-image">
+                    <img src="images/BOX.jpg" alt="Starter 420 Kit" class="main-image">
+                    <img src="images/Full Kit.jpg" alt="Starter 420 Kit Hover" class="hover-image">
+                </div>
+                <p>Starter 420 Kit</p>
+                <p>Price: $34.99</p>
+            </a>
+            <button class="add-to-cart-btn" onclick="addToCart('Starter 420 Kit', 34.99)">Add to Cart</button>
+        </div>
+
+        <!-- Product 2: Premium Magic Pipe -->
+        <div class="product-item">
+            <a href="magic_pipe.html">
+                <div class="product-image">
+                    <img src="Images/Full Kit.jpg" alt="Premium Magic Pipe" class="main-image">
+                    <img src="images/magic_pipe_hover.jpg" alt="Premium Magic Pipe Hover" class="hover-image">
+                </div>
+                <p>Premium Magic Pipe</p>
+                <p>Price: $29.99</p>
+            </a>
+            <button class="add-to-cart-btn" onclick="addToCart('Premium Magic Pipe', 29.99)">Add to Cart</button>
+        </div>
+
+        <!-- Product 3: Mushroom Grinder -->
+        <div class="product-item">
+                <div class="product-image">
+                    <img src="Images/mushroom_grinder_new_image.jpeg" alt="Mushroom Grinder" class="main-image">
+                    <img src="Images/mushroom_grinders open.jpeg" alt="Mushroom Grinder Hover" class="hover-image">
+                </div>
+                <p>Mushroom Grinder</p>
+                <p>Price: $24.99</p>
+            </a>
+            <button class="add-to-cart-btn" onclick="addToCart('Mushroom Grinder', 24.99)">Add to Cart</button>
+        </div>
+    </div> 
+</section>
+        <!-- Call to Action Section -->
+        <section id="cta-shop">
+            <h2>Need More Magic?</h2>
+            <p>Browse our full collection to find even more enchanting 420 essentials!</p>
+            <a href="shop.html" class="cta-button">Explore the Shop</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Gnome's Little Garden. All rights reserved.</p>
+        <a href="contact.html">Contact Us</a> | <a href="faq.html">FAQ</a>
+    </footer>
+
+    <script>
+        // Use helper functions for cookies
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + JSON.stringify(value) + ";" + expires + ";path=/";
+        }
+
+        function getCookie(name) {
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookieArray = decodedCookie.split(';');
+            for (let i = 0; i < cookieArray.length; i++) {
+                let cookie = cookieArray[i].trim();
+                if (cookie.indexOf(name + "=") === 0) {
+                    return JSON.parse(cookie.substring(name.length + 1));
+                }
+            }
+            return null;
+        }
+
+        // Add item to cart and save it in a cookie
+        function addToCart(name, price) {
+            let cartItems = getCookie('cartItems') || [];
+            const existingItem = cartItems.find(item => item.name === name);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cartItems.push({ name: name, price: price, quantity: 1 });
+            }
+
+            setCookie('cartItems', cartItems, 7); // Save updated cart to cookie (expires in 7 days)
+            alert(`${name} added to cart!`);
+        }
+
+
+    </script>
+  
+</body>
+
+</html>

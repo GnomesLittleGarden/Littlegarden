@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gnome's Little Garden - Cart</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cart.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+
+
+ 
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="top-nav">
+        <div class="nav-logo">
+            <a href="index.html"><img src="Images/Gnome_Logo-removebg-preview.png" alt="Nav Image" class="nav-image"></a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="faq.html">FAQ</a>
+            <a href="cart.html">Cart</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="cart">
+            <h1>Your Cart</h1>
+
+            <div id="cart-items">
+                <!-- Cart items will be dynamically inserted here by JavaScript -->
+            </div>
+
+            <!-- Coupon Code Section (Moved before "Proceed to Checkout") -->
+            <div class="coupon-code">
+                <label for="coupon">Have a coupon?</label>
+                <input type="text" id="coupon" placeholder="Enter coupon code">
+                <button id="apply-coupon-btn" onclick="applyCoupon()">Apply</button>
+            </div>
+
+            <div id="cart-summary">
+                <p>Total: $<span id="cart-total">0.00</span></p> <!-- Where the total is displayed -->
+                <a href="checkout.html" class="cta-button" onclick="storeCartTotalInCookie()">Proceed to Checkout</a>
+            </div>
+
+            <script>
+                // Set a cookie with the total value
+                function setCookie(name, value, days) {
+                    const date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    const expires = "expires=" + date.toUTCString();
+                    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+                }
+
+                // Store the cart total in a cookie when the user clicks "Proceed to Checkout"
+                function storeCartTotalInCookie() {
+                    const total = document.getElementById('cart-total').textContent;
+                    setCookie('cartTotal', total, 1); // Save the total in a cookie for 1 day
+                }
+            </script>
+
+            <!-- Empty Cart Message with Recommendations -->
+            <div id="empty-cart" class="empty-cart-message">
+                <p>Your cart is empty. Browse our <a href="shop.html">Shop</a> for some magical items!</p>
+                <div class="recommended-products">
+                    <div class="product-item">Starter 420 Kit</div>
+                    <div class="product-item">Premium Magic Pipe</div>
+                    <div class="product-item">Mushroom Grinder</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Gnome's Little Garden. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const productImages = {
+            "Starter 420 Kit": "images/Full Kit.jpg",
+            "Premium Magic Pipe": "images/magic_pipe_hover.jpg",
+            "Mushroom Grinder": "Images/mushroom_grinder_new_image.jpeg"
+        };
+
+        let cartItems = getCookie('cartItems') || [];
+        let couponApplied = false;  // Coupon application tracker
+
+        function loadCart() {
+            const cartContainer = document.getElementById('cart-items');
+            cartContainer.innerHTML = '';
+
+            if (cartItems.length === 0) {
+                document.getElementById('empty-cart').style.display = 'block';
+                document.getElementById('cart-summary').style.display = 'none';
+            } else {
+                document.getElementById('empty-cart').style.display = 'none';
+                document.getElementById('cart-summary').style.display = 'block';
+
+                cartItems.forEach(item => {
+                    const productImage = productImages[item.name] || "images/default-product.jpg";
+
+                    cartContainer.innerHTML += `
+                        <div class="cart-item" id="cart-item-${item.name}">
+                            <img src="${productImage}" alt="${item.name} Image">
+                            <h3>${item.name}</h3>
+                            <p>Price: $${item.price.toFixed(2)}</p>
+                            <div class="cart-item-controls">
+                                <button onclick="changeQuantity('${item.name}', ${item.price}, -1)">-</button>
+                                <span id="${item.name}-quantity">${item.quantity}</span>
+                                <button onclick="changeQuantity('${item.name}', ${item.price}, 1)">+</button>
+                            </div>
+                            <button onclick="removeItem('${item.name}')">Remove</button>
+                            <p>Total: $<span id="${item.name}-total">${(item.price * item.quantity).toFixed(2)}</span></p>
+                        </div>
+                    `;
+                });
+
+                updateCartTotal();
+            }
+        }
+
+        function changeQuantity(name, price, delta) {
+            const item = cartItems.find(item => item.name === name);
+            if (!item) return;
+
+            if (item.quantity === 1 && delta === -1) {
+                removeItem(name);
+                return;
+            }
+
+            item.quantity += delta;
+            document.getElementById(`${name}-quantity`).textContent = item.quantity;
+            document.getElementById(`${name}-total`).textContent = (price * item.quantity).toFixed(2);
+
+            setCookie('cartItems', cartItems, 7); 
+            updateCartTotal();
+        }
+
+        function updateCartTotal() {
+            let total = 0;
+            cartItems.forEach(item => {
+                total += item.price * item.quantity;
+            });
+            document.getElementById('cart-total').textContent = total.toFixed(2);
+        }
+
+        function removeItem(name) {
+            const itemIndex = cartItems.findIndex(item => item.name === name);
+            if (itemIndex > -1) {
+                cartItems.splice(itemIndex, 1); 
+            }
+            setCookie('cartItems', cartItems, 7); 
+            loadCart();
+        }
+
+        function applyCoupon() {
+            if (couponApplied) {
+                alert('You have already applied a coupon.');
+                return;
+            }
+
+            const couponInput = document.getElementById('coupon').value.trim();
+            const applyButton = document.getElementById('apply-coupon-btn');
+
+            const coupons = {
+                'DISCOUNT10': 0.10,
+                'DISCOUNT20': 0.20,
+                'SAVE5': 5.00
+            };
+
+            if (couponInput in coupons) {
+                let discount = coupons[couponInput];
+                let currentTotal = parseFloat(document.getElementById('cart-total').textContent);
+
+                if (discount < 1) {
+                    currentTotal -= (currentTotal * discount);
+                } else {
+                    currentTotal -= discount;
+                }
+
+                if (currentTotal < 0) {
+                    currentTotal = 0;
+                }
+
+                document.getElementById('cart-total').textContent = currentTotal.toFixed(2);
+                couponApplied = true;
+                applyButton.disabled = true;
+
+                alert(`Coupon applied! New total is $${currentTotal.toFixed(2)}.`);
+            } else {
+                alert('Invalid coupon code.');
+            }
+        }
+
+        function getCookie(name) {
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookieArray = decodedCookie.split(';');
+            for (let i = 0; i < cookieArray.length; i++) {
+                let cookie = cookieArray[i].trim();
+                if (cookie.indexOf(name + "=") === 0) {
+                    return JSON.parse(cookie.substring(name.length + 1));
+                }
+            }
+            return null;
+        }
+
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + JSON.stringify(value) + ";" + expires + ";path=/";
+        }
+
+        window.onload = loadCart;
+    </script>
+</body>
+
+</html>

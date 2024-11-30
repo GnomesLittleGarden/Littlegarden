@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gnome's Little Garden - Home</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="top-nav">
+        <a href="Index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="About.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <h1>Welcome to Gnome's Little Garden</h1>
+        <p>Your magical destination for unique 420 essentials.</p>
+        <a href="#shop" class="cta-button">Shop Now</a>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Features Section -->
+        <section id="features">
+            <h2>Our Enchanted Features</h2>
+            <div class="feature">
+                <img src="images/feature1.jpg" alt="Premium Quality">
+                <h3>Top-Notch Quality</h3>
+                <p>Discover our premium products designed to enhance your experience.</p>
+            </div>
+            <div class="feature">
+                <img src="images/feature2.jpg" alt="Exclusive Magic">
+                <h3>Exclusive Magic</h3>
+                <p>Explore our exclusive items that add a touch of whimsy to your collection.</p>
+            </div>
+            <div class="feature">
+                <img src="images/feature3.jpg" alt="Adventurous Gear">
+                <h3>Adventurous Gear</h3>
+                <p>Find the perfect gear for your 420 adventures and beyond.</p>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section id="cta">
+            <h2>Ready to Elevate Your Stash?</h2>
+            <p>Browse our collection of carefully curated 420 essentials and experience the magic for yourself.</p>
+            <a href="shop.html" class="cta-button">Shop Now</a>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials">
+            <h2>What Our Customers Say</h2>
+            <div class="testimonial">
+                <p>"Gnome's Little Garden has transformed my 420 experience. The products are top quality and the service is fantastic!"</p>
+                <h4>- Skylar B.</h4>
+            </div>
+            <div class="testimonial">
+                <p>"I love the unique and whimsical items. It's like stepping into a magical world every time I shop here."</p>
+                <h4>- Jordan T.</h4>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Gnome's Little Garden. All rights reserved.</p>
+        <a href="contact.html">Contact Us</a> | <a href="faq.html">FAQ</a>
+    </footer>
+
+    <!-- Script for Scroll Effects -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const topNav = document.querySelector('.top-nav');
+            topNav.classList.toggle('scrolled', window.scrollY > 0);
+        });
+    </script>
+    <script src="js/script.js"></script>
+
+</body>
+</html>

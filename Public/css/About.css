@@ -1,0 +1,203 @@
+ /* General Styles */
+ body {
+    font-family: 'Cinzel Decorative', cursive;
+    margin: 0;
+    padding: 0;
+    background-color: #f2d7c7; /* light green background for freshness */
+    color: #2c5f2d; /* deep green for text */
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* Navigation Bar */
+.top-nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 15px 0; /* Ensure enough space for larger image */
+    text-align: center;
+    z-index: 1000;
+    transition: background-color 0.3s, padding 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* subtle shadow for depth */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distributes space between items */
+}
+
+/* Ensure logo is sized properly */
+.nav-logo {
+    height: 69px; /* Larger height for logo */
+    margin-right: auto; /* Keeps the logo aligned to the left */
+}
+
+/* Target images in the nav */
+.top-nav img {
+    height: 69px; /* Adjust this value to set the image size */
+    vertical-align: middle; /* Aligns the image with the text */
+    margin: 0 15px; /* Adds spacing around the image */
+    transition: transform 0.3s; /* Adds a hover effect */
+}
+
+/* Ensure other images have appropriate margins */
+.top-nav img:not(.nav-logo) {
+    margin-right: 15px; /* Space out other images in the nav */
+}
+
+/* Hover effect */
+.top-nav img:hover {
+    transform: scale(1.1); /* Slightly enlarges the image on hover */
+}
+
+.top-nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-family: 'Cinzel', serif;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.top-nav a:hover {
+    background-color: #6a89cc;
+    transform: scale(1.1);
+}
+
+body.scrolled .top-nav {
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 10px 0; /* Adjusted padding */
+}
+
+body.scrolled .top-nav a {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+}
+
+
+
+/* Header */
+header {
+    text-align: center;
+    padding: 6rem 1rem;
+    background: #B8A1D0;
+    color: #F2D7C7;
+    font-family: 'Cinzel Decorative', cursive;
+    position: relative;
+    overflow: hidden;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+}
+
+header p {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+
+
+/* Call to Action Button */
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    margin-top: 1.5rem;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: 'Cinzel', serif;
+}
+
+.cta-button:hover {
+    background-color: #6a89cc;
+    transform: scale(1.1);
+}
+
+/* Main Content */
+main {
+    margin-top: 80px; /* to avoid overlap with sticky navbar */
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer a {
+    color: #b8e994;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    color: #6a89cc;
+}
+/* Ensure the grid layout is centered */
+.values-grid {
+    display: flex;
+    justify-content: center; /* Align horizontally in the center */
+    gap: 20px; /* Optional: Adds some space between each box */
+    flex-wrap: wrap; /* Allow wrapping if necessary */
+    margin-top: 20px; /* Adjust if needed */
+}
+
+/* Style individual value cards */
+.value-card {
+    width: 250px; /* Set a fixed width for consistency */
+    padding: 15px;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px; /* Optional: Rounded corners for aesthetics */
+}
+
+/* Add overall container centering if necessary */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+#our-values .value-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    width: calc(33.333% - 40px);
+    margin: 20px;
+    box-shadow: 0 6px 12px rgba(160, 167, 167, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+#our-values .value-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(160, 167, 167, 0.2);
+}
+
+#our-gnome img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 50%;
+    margin: 20px 0;
+}
+
+#our-gnome p {
+    font-size: 1.2rem;
+    color: #6A8A55; /* Olive Green */
+}
